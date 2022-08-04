@@ -1,5 +1,5 @@
 import './slotMachine.css';
-
+import Loading from '../loading/loading';
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, useLoader, useFrame } from "react-three-fiber"
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
@@ -15,10 +15,13 @@ function SlotMachine() {
   const [moneyBet, setMoneyBet] = useState(0);
   const [loading, setLoading] = useState(true);
   const [winText, setWinText] = useState("");
+  const [curSpin, setCurSpin] = useState([Math.random()*2*Math.PI, Math.random()*2*Math.PI, Math.random()*2*Math.PI, Math.random()*2*Math.PI, Math.random()*2*Math.PI])
+  const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [bonusGame, setBonusGame] = useState(false);
 
+  const bonus = 10
   var isSpinning = false;
   var spins = [false, false, false, false, false]
-  var curSpin = [0, 0, 0, 0, 0]
 
   useEffect( () => {
     if (slotRef5.current != null) {
@@ -28,7 +31,17 @@ function SlotMachine() {
       setLoading(false)
     }, 1000)
 
-  },[money, moneyBet, loading, winText])
+    console.log(bonusGame, gamesPlayed)
+    if (!bonusGame && (gamesPlayed+1) % 10 == 0) {
+      setBonusGame(true);
+      setMoneyBet(10)
+    }
+
+    if (bonusGame && gamesPlayed+1 % 10 != 0) {
+      setBonusGame(false);
+    }
+
+  },[money, moneyBet, loading, winText, gamesPlayed])
 
   function BoxContainer() {
     return (
@@ -51,7 +64,7 @@ function SlotMachine() {
     isSpinning = true
     setTimeout( () => {
       isSpinning = false
-    },2000)
+    },1000)
   }
 
   function spinCheck() {
@@ -69,7 +82,8 @@ function SlotMachine() {
         6 - Math.floor((slotRef4.current.rotation.x % (2*Math.PI)) / (2*Math.PI/7)),
         6 - Math.floor((slotRef5.current.rotation.x % (2*Math.PI)) / (2*Math.PI/7))
       ]
-      console.log(result)
+      console.log("Game " + gamesPlayed + ": " + result)
+      setGamesPlayed(gamesPlayed + 1)
       let winning = 0
       if (result[0] == 2 && result[1] == 3 && result [2] == 4 && result[3] == 5 && result [4] == 6) {
         //ultra win
@@ -107,7 +121,11 @@ function SlotMachine() {
           setWinText("")
         }, 2000)
       }
-      setMoney(money - moneyBet + winning)
+      if (bonusGame) {
+        setMoney(money + winning)  
+      } else {
+        setMoney(money - moneyBet + winning)
+      }
     }
   }
 
@@ -126,11 +144,13 @@ function SlotMachine() {
       }
       if (spins[props.number]) {
         if (startTime <= 0) {
-          startTime = clock.getElapsedTime();
+          startTime = clock.getElapsedTime() 
+          currentTime = startTime - props.slotRef.current.rotation.x; 
         }
-        props.slotRef.current.rotation.x = (clock.getElapsedTime() - startTime)*4
-        curSpin[props.number] = (clock.getElapsedTime() - startTime)*4
-        currentTime = clock.getElapsedTime() - startTime; 
+        props.slotRef.current.rotation.x = (clock.getElapsedTime() - currentTime)*6
+        let tempCurSpin = curSpin
+        tempCurSpin[props.number] = props.slotRef.current.rotation.x
+        setCurSpin(tempCurSpin)
       }
       
     })
@@ -146,12 +166,7 @@ function SlotMachine() {
   return (
     <div className="container">
       {loading? (
-        <div className='loadingContainer'>
-          <div className='loading'/>
-          <div>
-            Loading ...
-          </div>
-        </div>
+        <Loading/>
       ): (
         <>
         <div className='money'>
@@ -185,6 +200,18 @@ function SlotMachine() {
             <div className='reduceBet' onClick={() => {if (moneyBet > 0 && !isSpinning) {setMoneyBet(moneyBet-1)}}}>
               -1
             </div>
+          </div>
+        </div>
+
+        <div className='rulesContainer'>
+          <div className='rules'>
+            Rules <br/>
+            1. Win = the 5th slot is a 6 <br/>
+            2. Big Win = the 1st and 2nd slot is a 6 <br/>
+            3. Mega Win = all the slot has the same number <br/>
+            4. Super Win = 1st and 2nd slot the same and 3rd, 4th, and 5th slot the same <br/>
+            5. Ultra Win = 2, 3, 4, 5, 6 <br/>
+            6. After every 10th bet, bonus $10 bet without subtracting your money <br/>
           </div>
         </div>
         </>

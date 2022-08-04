@@ -69,39 +69,32 @@
     }
 }
 
-.loading {
-    width: 200px;
-    height: 200px;
-    border: 5px;
-    border-top: 5px solid green ;
-    border-radius: 100%;
-    animation: rotate 0.2s infinite;
+.rulesContainer {
+    position: absolute;
+    left: 2%;
+    top: calc(50% - 80px);
+    width: 300px;
+    padding: 10px 20px;
+    background-color: greenyellow;
+    border: 5px solid green;
 }
 
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
+@media screen and (max-width: 1000px){
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 300vh;
+        background-color: black;
     }
-    25% {
-        transform: rotate(90deg);
-    } 
-    50% {
-        transform: rotate(180deg);
-    }
-    75% {
-        transform: rotate(270deg);
-    }
-    100% {
-         transform: rotate(360deg);
-    }
-}
 
-.loadingContainer {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    .betContainer {
+        top: 25vh;
+    }
 
+    .rulesContainer {
+        position: relative;
+        top: 0;
+        left: 0;
+    }
 }
