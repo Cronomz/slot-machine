@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import SlotMachine from './pages/slotMachine/slotMachine';
+import DashBoard from './pages/dashBoard/dashBoard';
 
 function App() {
+  const [curPage, setCurPage] = useState("slot")
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className='app'>
+        <div onClick={() => {setCurPage("slot")}} className='link'>
+          Slot Machine
+        </div>
+        <div onClick={() => {setCurPage("dash")}} className='link'>
+          DashBoard
+        </div>
+      </div>
+        {curPage=="slot"? (
+          <SlotMachine/>
+        ) : (<DashBoard/>)}
+      
     </div>
   );
 }

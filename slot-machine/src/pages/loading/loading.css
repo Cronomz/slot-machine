@@ -1,0 +1,36 @@
+.loading {
+    width: 200px;
+    height: 200px;
+    border: 5px;
+    border-top: 5px solid green ;
+    border-radius: 100%;
+    animation: rotate 0.2s infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(90deg);
+    } 
+    50% {
+        transform: rotate(180deg);
+    }
+    75% {
+        transform: rotate(270deg);
+    }
+    100% {
+         transform: rotate(360deg);
+    }
+}
+
+.loadingContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
