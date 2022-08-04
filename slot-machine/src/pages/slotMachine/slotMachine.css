@@ -14,13 +14,14 @@
     width: 100vw;
     display: flex;
     justify-content: center;
-    top: 20px;
+    top: 30px;
     color: white;
     z-index: 100;
 }
 
 .betContainer {
     width: 100vw;
+    max-height: 50px;
     position: absolute;
     display: flex;
     align-items: center;
@@ -55,6 +56,7 @@
     white-space: pre-line;
     animation: win 1s infinite;
     transition: all 1s;
+    z-index: 100;
 }
 
 @keyframes win {
@@ -73,10 +75,11 @@
     position: absolute;
     left: 2%;
     top: calc(50% - 80px);
-    width: 300px;
+    max-width: 300px;
     padding: 10px 20px;
     background-color: greenyellow;
     border: 5px solid green;
+    z-index: 99;
 }
 
 @media screen and (max-width: 1000px){
@@ -89,7 +92,7 @@
     }
 
     .betContainer {
-        top: 25vh;
+        top: 50vh;
     }
 
     .rulesContainer {
