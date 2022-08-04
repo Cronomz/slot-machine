@@ -1,9 +1,10 @@
 .container {
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .canvas {
-    height: 100vh;
+    min-height: 300px;
+    max-height: 700px;
     width: 100vw;
     background-color: black;
     display: block;
@@ -87,30 +88,25 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 300vh;
+        min-height: 160vh;
         background-color: black;
-    }
-
-    .betContainer {
-        top: 50vh;
     }
 
     .rulesContainer {
         position: relative;
         top: 0;
-        left: 0;
     }
+}
 
-    @media  screen and (min-height: 630px) {
-        .betContainer {
-            top: 55vh;
-        }
+@media screen  and (max-height: 300px){
+    .betContainer {
+        top: 300px
     }
-    
-    @media screen and (min-height: 835px) {
-        .betContainer {
-            top: 60vh;
-        }
+}
+
+@media screen and (min-height: 700px) {
+    .betContainer {
+        top: 650px
     }
 }
 
