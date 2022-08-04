@@ -100,4 +100,17 @@
         top: 0;
         left: 0;
     }
+
+    @media  screen and (min-height: 630px) {
+        .betContainer {
+            top: 55vh;
+        }
+    }
+    
+    @media screen and (min-height: 835px) {
+        .betContainer {
+            top: 60vh;
+        }
+    }
 }
+
